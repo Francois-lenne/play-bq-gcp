@@ -89,6 +89,11 @@ dataset = client.create_dataset(dataset)  # API request
 print("Dataset créé. {}".format(dataset.full_dataset_id))
 
 
+
+
+
+
+
 ## Load the data trophee in BigQuery
 
 import pandas_gbq
@@ -112,3 +117,31 @@ for column in object_cols:
 ### Load the dataframe into BigQuery
 pandas_gbq.to_gbq(df_trophee, f"{project_id}.{dataset_id}.{table_id}", project_id=project_id, if_exists="replace")
 
+
+
+
+## Load the games data in Bigquery
+
+### Modification of the column in order to be able to load the data in BigQuery
+df['title_id'] = df['title_id'].str.replace('_', '')
+df['category'] = df['category'].astype(str).str[-3]
+
+
+### Convert the date columns to datetime for BigQuery
+
+
+object_cols = df.select_dtypes(include=['object']).columns
+
+for column in object_cols:
+    dtype = str(type(df[column].values[0]))
+    if dtype == "<class 'datetime.date'>":
+        df[column]  = pd.to_datetime(df[column] , infer_datetime_format=True)
+
+
+### Convert the time delta columns to timedelta for BigQuery
+for column in df.select_dtypes(include=['timedelta64[ns]']).columns:
+    df[column] = df[column].dt.total_seconds()
+
+### Load the dataframe into BigQuery
+        
+pandas_gbq.to_gbq(df, f"{project_id}.{dataset_id}.{table_id}", project_id=project_id, if_exists="replace")
