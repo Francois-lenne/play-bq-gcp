@@ -31,7 +31,7 @@ def update_trophee(df_trophee):
 
 def retrieve_game_data():
 
-    psnawp = PSNAWP(os.getenv('psn'))
+    psnawp = PSNAWP(os.getenv('psn')) # retrieve the psn information
 
     client = psnawp.me()
 
