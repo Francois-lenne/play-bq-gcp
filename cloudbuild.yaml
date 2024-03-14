@@ -1,0 +1,3 @@
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['functions', 'deploy', 'data_playstation', '--runtime', 'python310', '--trigger-http', '--allow-unauthenticated', '--source', '.']
