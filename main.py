@@ -1,4 +1,4 @@
-# package import
+# package import in this program
 
 from psnawp_api import PSNAWP
 import os
