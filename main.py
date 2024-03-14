@@ -51,7 +51,7 @@ def retrieve_game_data():
     df_game['id'] = df_game['title_id'].apply(lambda x: x[-7:]) + df_game['first_played_date_time'].dt.strftime('%d%H%Y%m')
 
 
-    df_game['id'].astype(str)
+    df_game['id'].astype(str) # appliquer string
 
     object_cols = df_game.select_dtypes(include=['object']).columns
 
