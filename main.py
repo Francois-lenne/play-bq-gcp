@@ -1,3 +1,5 @@
+# package import
+
 from psnawp_api import PSNAWP
 import os
 from google.cloud import bigquery
