@@ -1,0 +1,24 @@
+# Fichiers Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+
+# Environnements virtuels
+venv/
+*.venv
+env/
+.venv/
+ENV/
+
+# Fichiers de dépendances
+Pipfile
+Pipfile.lock
+*.egg-info/
+
+# Fichiers de développement
+.vscode/
+.idea/
+
+# Fichiers de système d'exploitation
+.DS_Store
