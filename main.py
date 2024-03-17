@@ -255,7 +255,7 @@ def main(request):
     df_game_filtered = game_need_update(time_play_df, df_game)
 
 
-    target_table_id = f"{get_project_id()}.{get_secret(get_project_id(), "DATASET_NAME")}.{get_secret(get_project_id(), "TABLE_NAME_GAME")}"
+    target_table_id = f"{get_project_id()}.{get_secret(get_project_id(), 'DATASET_NAME')}.{get_secret(get_project_id(), 'TABLE_NAME_GAME')}"
 
     temp_table_id = f"{get_project_id()}.{get_secret(get_project_id(), "DATASET_NAME")}.temp_table"
 
