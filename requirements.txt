@@ -7,7 +7,7 @@ google-cloud-core==2.4.1
 google-cloud-secret-manager==2.18.3
 google-crc32c==1.5.0
 google-resumable-media==2.7.0
-googleapis-common-protos==1.62.02
+googleapis-common-protos==1.62.0
 nest-asyncio==1.5.9
 numpy==1.26.3
 oauthlib==3.2.2
