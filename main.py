@@ -211,6 +211,10 @@ def main(request):
 
     client = psnawp.me()
 
+    credentials = get_secret(get_project_id(), 'GOOGLE_APPLICATION_CREDENTIALS')
+
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credentials
+
 
 
     profile = client.get_profile_legacy()
