@@ -5,6 +5,8 @@ import os
 from google.cloud import bigquery
 import pandas as pd
 from google.cloud import secretmanager
+import google.auth
+
 
 
 def get_project_id():
@@ -206,6 +208,10 @@ def update_bigquery_table_from_df(df_game_filtered, temp_table_id, target_table_
 
 
 def main(request):
+
+    credentials, project_id = google.auth.default()
+
+    client = bigquery.Client(credentials=credentials)
 
     psnawp = PSNAWP(get_secret(get_project_id(), "psn")) # retrieve the psn information
 
