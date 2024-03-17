@@ -249,7 +249,7 @@ def main(request):
     time_play_df = update_time_play(old_game_df, df_game)
 
 
-    load_df_to_bigquery(time_play_df, f"{get_project_id()}.{get_secret(get_project_id(), "DATASET_NAME")}.{get_secret(get_project_id(), "TABLE_NAME_TIME_PLAY")}")
+    load_df_to_bigquery(time_play_df, f"{get_project_id()}.{get_secret(get_project_id(), 'DATASET_NAME')}.{get_secret(get_project_id(), 'TABLE_NAME_TIME_PLAY')}")
 
 
     df_game_filtered = game_need_update(time_play_df, df_game)
