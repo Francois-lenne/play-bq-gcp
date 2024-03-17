@@ -211,7 +211,9 @@ def main(request):
 
     client = psnawp.me()
 
-    credentials = get_secret(get_project_id(), 'GOOGLE_APPLICATION_CREDENTIALS')
+    credentials_secret_path = "projects/629847393464/secrets/GOOGLE_APPLICATION_CREDENTIALS"
+
+    credentials = get_secret(get_project_id(), credentials_secret_path)
 
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credentials
 
