@@ -1,6 +1,6 @@
 # package for this programs
 
-from psnawp_api import PSNAWP
+from psnawp_api import PSNAWP # import package for psn api
 import os
 from google.cloud import bigquery
 import pandas as pd
