@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 def get_project_id():
-    project_id = os.getenv('GCP_PROJECT')
+    project_id = 629847393464
     return project_id
 
 
