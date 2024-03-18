@@ -169,6 +169,12 @@ def update_time_play(old_game_df, df_game):
 
 
 def load_df_to_bigquery(df, table_id):
+
+    credentials_json = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+
+    credentials = service_account.Credentials.from_service_account_info(
+        json.loads(credentials_json)
+    )
     client = bigquery.Client(credentials=credentials)
     job_config = bigquery.LoadJobConfig(
         write_disposition="WRITE_APPEND",
@@ -232,6 +238,12 @@ def update_bigquery_table_from_df(df_game_filtered, temp_table_id, target_table_
 
 
 def main(request):
+
+    credentials_json = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+
+    credentials = service_account.Credentials.from_service_account_info(
+        json.loads(credentials_json)
+    )
 
     project_id = os.getenv("GCP_PROJECT")
     logging.info(f'Project ID: {project_id}')
