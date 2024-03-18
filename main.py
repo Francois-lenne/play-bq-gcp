@@ -12,6 +12,7 @@ from google.auth.credentials import Credentials
 
 
 
+logging.basicConfig(level=logging.INFO)
 
 
 
@@ -30,6 +31,15 @@ def get_secret(project_id, secret_id):
     secret_string = response.payload.data.decode("UTF-8")
     return secret_string
 
+
+
+project_id = get_project_id()
+
+logging.info(f'Project ID: {project_id}')
+
+dataset_name = get_secret(project_id, "DATASET_NAME")
+
+logging.info(f'Dataset Name: {dataset_name}')
 
 
 
