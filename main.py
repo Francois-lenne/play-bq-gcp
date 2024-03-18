@@ -348,6 +348,8 @@ def main(request):
     # Utilisez la fonction pour mettre à jour une table BigQuery à partir d'un DataFrame
     update_bigquery_table_from_df(df_game_filtered, temp_table_id, target_table_id)
 
+    return 'Success', 200
+
 
 
 
