@@ -37,6 +37,17 @@ def update_trophee(df_trophee):
     project_id = os.getenv("PROJECT_ID")
     dataset_name = os.getenv("DATASET_NAME")
     table_name_trophee = os.getenv("TABLE_NAME_TROPHEE")
+
+
+    credentials_json = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+
+    credentials = service_account.Credentials.from_service_account_info(
+        json.loads(credentials_json)
+    )
+
+
+    client = bigquery.Client(credentials=credentials)
+
     # Construisez le nom complet de la table BigQuery
     table_id = f"{project_id}.{dataset_name}.{table_name_trophee}"
 
