@@ -6,6 +6,10 @@ from google.cloud import bigquery
 import pandas as pd
 from google.cloud import secretmanager
 import google.auth
+import logging
+
+
+
 
 
 
@@ -14,12 +18,21 @@ def get_project_id():
     return project_id
 
 
+
+
+
 def get_secret(project_id, secret_id):
     client = secretmanager.SecretManagerServiceClient()
     secret_name = f"projects/{project_id}/secrets/{secret_id}/versions/latest"
     response = client.access_secret_version(request={"name": secret_name})
     secret_string = response.payload.data.decode("UTF-8")
     return secret_string
+
+credentials = get_secret(get_project_id(), "GOOGLE_APPLICATION_CREDENTIALS")
+
+logging.info(f'Credentials: {credentials}')  # Ajout d'un log ici
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credentials
 
 
 
@@ -209,19 +222,13 @@ def update_bigquery_table_from_df(df_game_filtered, temp_table_id, target_table_
 
 def main(request):
 
-    credentials, project_id = google.auth.default()
-
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client()
 
     psnawp = PSNAWP(get_secret(get_project_id(), "psn")) # retrieve the psn information
 
     client = psnawp.me()
 
-    credentials_secret_path = "projects/629847393464/secrets/GOOGLE_APPLICATION_CREDENTIALS"
 
-    credentials = get_secret(get_project_id(), credentials_secret_path)
-
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credentials
 
 
 
