@@ -11,9 +11,7 @@ import json
 from google.auth.credentials import Credentials
 
 
-
-
-
+os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
 def update_trophee(df_trophee):
     # Récupérez les informations à partir des variables d'environnement
