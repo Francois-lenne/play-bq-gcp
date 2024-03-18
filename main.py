@@ -34,7 +34,7 @@ logging.info("this is the file",credentials)
 
 def update_trophee(df_trophee):
     # Récupérez les informations à partir des variables d'environnement
-    project_id = os.getenv("PROJECT_ID")
+    project_id = os.getenv("GCP_PROJECT")
     dataset_name = os.getenv("DATASET_NAME")
     table_name_trophee = os.getenv("TABLE_NAME_TROPHEE")
 
