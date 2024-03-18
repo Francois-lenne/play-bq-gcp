@@ -41,9 +41,8 @@ def update_trophee(df_trophee):
 
     service_account_file = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
-    credentials = service_account.Credentials.from_service_account_file(
-        service_account_file,
-        scopes=["https://www.googleapis.com/auth/cloud-platform"],
+    credentials = service_account.Credentials.from_service_account_info(
+        json.loads(service_account_file)
     )
 
 
