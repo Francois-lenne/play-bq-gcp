@@ -188,6 +188,8 @@ def update_time_play(old_game_df, df_game):
 
 def load_df_to_bigquery(df, table_id):
 
+    table_id = table_id.strip()
+
     credentials_json = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
 
     credentials = service_account.Credentials.from_service_account_info(
