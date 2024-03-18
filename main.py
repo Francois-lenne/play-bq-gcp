@@ -144,7 +144,7 @@ def retrieve_old_game():
     )
 
     client = bigquery.Client(credentials=credentials, location="EU")
-    project_id = os.getenv("PROJECT_ID")
+    project_id = os.getenv("GCP_PROJECT")
     dataset_name = os.getenv("DATASET_NAME")
     table_name_game = os.getenv("TABLE_NAME_GAME")
 
