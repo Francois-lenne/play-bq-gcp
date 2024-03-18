@@ -39,10 +39,11 @@ def update_trophee(df_trophee):
     table_name_trophee = os.getenv("TABLE_NAME_TROPHEE")
 
 
-    credentials_json = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+    service_account_file = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
-    credentials = service_account.Credentials.from_service_account_info(
-        json.loads(credentials_json)
+    credentials = service_account.Credentials.from_service_account_file(
+        service_account_file,
+        scopes=["https://www.googleapis.com/auth/cloud-platform"],
     )
 
 
