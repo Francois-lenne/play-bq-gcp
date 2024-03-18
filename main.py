@@ -199,7 +199,7 @@ def update_bigquery_table_from_df(df_game_filtered, temp_table_id, target_table_
 
 
 
-def main():
+def main(request):
 
     project_id = os.getenv("PROJECT_ID")
     logging.info(f'Project ID: {project_id}')
