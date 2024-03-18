@@ -59,7 +59,7 @@ def update_trophee(df_trophee):
 
 
     # Insérez les données dans la table BigQuery
-    client.insert_rows_from_dataframe(table_id, df_trophee)
+    client.insert_rows_from_dataframe(table, df_trophee)
 
     return 'Success!'
 
