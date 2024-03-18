@@ -229,8 +229,6 @@ def game_need_update(time_play_df, df_game):
 
 
 def update_bigquery_table_from_df(df_game_filtered, temp_table_id, target_table_id):
-    # Chargez le DataFrame dans une table temporaire
-    df_game_filtered.to_gbq(temp_table_id, if_exists='replace')
 
 
     credentials_json = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
