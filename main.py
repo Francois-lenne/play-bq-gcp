@@ -61,6 +61,7 @@ def retrieve_game_data():
 
     if psn_value:
         psn_value = re.sub(r'[^\x00-\x7F]+',' ', psn_value).strip()
+        psn_value = re.sub('\n', '', psn_value).strip()
 
     
     psnawp = PSNAWP(psn_value)
