@@ -55,6 +55,10 @@ def update_trophee(df_trophee):
 
 def retrieve_game_data():
     psn_value = os.getenv("psn")
+
+    logging.info(f'PSN: {psn_value}')
+
+
     if psn_value:
         psn_value = re.sub(r'[^\x00-\x7F]+',' ', psn_value).strip()
 
