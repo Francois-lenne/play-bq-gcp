@@ -12,42 +12,14 @@ from google.auth.credentials import Credentials
 
 
 
-logging.basicConfig(level=logging.INFO)
-
-
-
-def get_project_id():
-    project_id = 629847393464
-    return project_id
-
-
-
-
-
-def get_secret(project_id, secret_id):
-    client = secretmanager.SecretManagerServiceClient()
-    secret_name = f"projects/{project_id}/secrets/{secret_id}/versions/latest"
-    response = client.access_secret_version(request={"name": secret_name})
-    secret_string = response.payload.data.decode("UTF-8")
-    return secret_string
-
-
-
-project_id = get_project_id()
-
-logging.info(f'Project ID: {project_id}')
-
-dataset_name = get_secret(project_id, "DATASET_NAME")
-
-logging.info(f'Dataset Name: {dataset_name}')
 
 
 
 def update_trophee(df_trophee):
     # Récupérez les informations à partir des variables d'environnement
-    project_id = get_project_id()
-    dataset_name = get_secret(project_id, "DATASET_NAME")
-    table_name_trophee = get_secret(project_id, "TABLE_NAME_TROPHEE")
+    project_id = os.getenv("PROJECT_ID")
+    dataset_name = os.getenv("DATASET_NAME")
+    table_name_trophee = os.getenv("TABLE_NAME_TROPHEE")
     # Construisez le nom complet de la table BigQuery
     table_id = f"{project_id}.{dataset_name}.{table_name_trophee}"
 
@@ -66,7 +38,7 @@ def update_trophee(df_trophee):
 
 def retrieve_game_data():
 
-    psnawp = PSNAWP(get_secret(get_project_id(), "psn")) # retrieve the psn information
+    psnawp = PSNAWP(os.getenv("psn")) # retrieve the psn information
 
     client = psnawp.me()
 
@@ -122,9 +94,9 @@ def retrieve_game_data():
 def retrieve_old_game():
     # Créez un client BigQuery
     client = bigquery.Client(location="EU")
-    project_id = get_project_id()
-    dataset_name = get_secret(project_id, "DATASET_NAME")
-    table_name_game = get_secret(project_id, "TABLE_NAME_GAME")
+    project_id = os.getenv("PROJECT_ID")
+    dataset_name = os.getenv("DATASET_NAME")
+    table_name_game = os.getenv("TABLE_NAME_GAME")
 
 
     # Définissez votre requête
@@ -229,14 +201,14 @@ def update_bigquery_table_from_df(df_game_filtered, temp_table_id, target_table_
 
 def main():
 
-    project_id = get_project_id()
+    project_id = os.getenv("PROJECT_ID")
     logging.info(f'Project ID: {project_id}')
-    dataset_name = get_secret(project_id, "DATASET_NAME")
+    dataset_name = os.getenv("DATASET_NAME")
     logging.info(f'Dataset Name: {dataset_name}')
 
     client = bigquery.Client()
 
-    psnawp = PSNAWP(get_secret(get_project_id(), "psn")) # retrieve the psn information
+    psnawp = PSNAWP(os.getenv("psn")) # retrieve the psn information
 
     client = psnawp.me()
 
@@ -280,15 +252,15 @@ def main():
     time_play_df = update_time_play(old_game_df, df_game)
 
 
-    load_df_to_bigquery(time_play_df, f"{get_project_id()}.{get_secret(get_project_id(), 'DATASET_NAME')}.{get_secret(get_project_id(), 'TABLE_NAME_TIME_PLAY')}")
+    load_df_to_bigquery(time_play_df, f"{project_id}.{dataset_name}.{os.getenv('TABLE_NAME_TIME_PLAY')}")
 
 
     df_game_filtered = game_need_update(time_play_df, df_game)
 
 
-    target_table_id = f"{get_project_id()}.{get_secret(get_project_id(), 'DATASET_NAME')}.{get_secret(get_project_id(), 'TABLE_NAME_GAME')}"
+    target_table_id = f"{project_id}.{dataset_name}.{os.get('TABLE_NAME_GAME')}"
 
-    temp_table_id = f"{get_project_id()}.{get_secret(get_project_id(), 'DATASET_NAME')}.temp_table"
+    temp_table_id = f"{project_id}.{dataset_name}.temp_table"
 
 
 
