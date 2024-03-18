@@ -6,12 +6,30 @@ from google.cloud import bigquery
 import pandas as pd
 from google.cloud import secretmanager
 import google.auth
+from google.oauth2 import service_account
 import logging
 import json
 from google.auth.credentials import Credentials
 
 
-os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+
+logging.basicConfig(level=logging.INFO)
+
+logging.info('Starting the program')
+
+
+
+credentials_json = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+
+credentials = service_account.Credentials.from_service_account_info(
+    json.loads(credentials_json)
+)
+
+
+logging.info("this is the file",credentials)
+
+
+
 
 def update_trophee(df_trophee):
     # Récupérez les informations à partir des variables d'environnement
@@ -91,7 +109,13 @@ def retrieve_game_data():
 
 def retrieve_old_game():
     # Créez un client BigQuery
-    client = bigquery.Client(location="EU")
+    credentials_json = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+
+    credentials = service_account.Credentials.from_service_account_info(
+        json.loads(credentials_json)
+    )
+
+    client = bigquery.Client(credentials=credentials, location="EU")
     project_id = os.getenv("PROJECT_ID")
     dataset_name = os.getenv("DATASET_NAME")
     table_name_game = os.getenv("TABLE_NAME_GAME")
@@ -135,7 +159,7 @@ def update_time_play(old_game_df, df_game):
 
 
 def load_df_to_bigquery(df, table_id):
-    client = bigquery.Client()
+    client = bigquery.Client(credentials=credentials)
     job_config = bigquery.LoadJobConfig(
         write_disposition="WRITE_APPEND",
     )
@@ -172,7 +196,7 @@ def update_bigquery_table_from_df(df_game_filtered, temp_table_id, target_table_
     # Chargez le DataFrame dans une table temporaire
     df_game_filtered.to_gbq(temp_table_id, if_exists='replace')
 
-    client = bigquery.Client()
+    client = bigquery.Client(credentials=credentials)
 
     # Construisez une requête SQL pour mettre à jour la table d'origine à partir de la table temporaire
     query = f"""
@@ -204,7 +228,7 @@ def main(request):
     dataset_name = os.getenv("DATASET_NAME")
     logging.info(f'Dataset Name: {dataset_name}')
 
-    client = bigquery.Client()
+    client = bigquery.Client(credentials=credentials)
 
     psnawp = PSNAWP(os.getenv("psn")) # retrieve the psn information
 
