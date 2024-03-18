@@ -41,10 +41,14 @@ def update_trophee(df_trophee):
 
     service_account_file = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
+
+    logging.info(f'Project ID: {project_id}')
+
     credentials = service_account.Credentials.from_service_account_info(
         json.loads(service_account_file)
     )
 
+    print(credentials)
 
     client = bigquery.Client(credentials=credentials, project=credentials.project_id)
 
