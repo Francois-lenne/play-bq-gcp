@@ -240,11 +240,13 @@ def main(request):
 
     client = bigquery.Client(credentials=credentials)
 
+    psn_value = os.getenv("psn")
+
     if psn_value:
         psn_value = re.sub(r'[^\x00-\x7F]+',' ', psn_value).strip()
         psn_value = re.sub('\n', '', psn_value).strip()
 
-    psnawp = PSNAWP(os.getenv("psn")) # retrieve the psn information
+    psnawp = PSNAWP(psn_value) # retrieve the psn information
 
     client = psnawp.me()
 
