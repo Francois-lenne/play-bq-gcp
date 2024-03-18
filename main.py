@@ -233,12 +233,16 @@ def update_bigquery_table_from_df(df_game_filtered, temp_table_id, target_table_
 
 def main(request):
 
-    project_id = os.getenv("PROJECT_ID")
+    project_id = os.getenv("GCP_PROJECT")
     logging.info(f'Project ID: {project_id}')
     dataset_name = os.getenv("DATASET_NAME")
     logging.info(f'Dataset Name: {dataset_name}')
 
     client = bigquery.Client(credentials=credentials)
+
+    if psn_value:
+        psn_value = re.sub(r'[^\x00-\x7F]+',' ', psn_value).strip()
+        psn_value = re.sub('\n', '', psn_value).strip()
 
     psnawp = PSNAWP(os.getenv("psn")) # retrieve the psn information
 
