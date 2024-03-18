@@ -5,7 +5,7 @@ import os
 from google.cloud import bigquery
 import pandas as pd
 from google.cloud import secretmanager
-import google.auth
+from google.auth import default
 from google.oauth2 import service_account
 import logging
 import json
@@ -38,17 +38,7 @@ def update_trophee(df_trophee):
     dataset_name = os.getenv("DATASET_NAME")
     table_name_trophee = os.getenv("TABLE_NAME_TROPHEE")
 
-
-    service_account_file = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-
-
-    logging.info(f'Project ID: {project_id}')
-
-    credentials = service_account.Credentials.from_service_account_info(
-        json.loads(service_account_file)
-    )
-
-    print(credentials)
+    credentials = default()
 
     client = bigquery.Client(credentials=credentials, project=credentials.project_id)
 
