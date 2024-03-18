@@ -229,6 +229,11 @@ def update_bigquery_table_from_df(df_game_filtered, temp_table_id, target_table_
 
 def main(request):
 
+    project_id = get_project_id()
+    logging.info(f'Project ID: {project_id}')
+    dataset_name = get_secret(project_id, "DATASET_NAME")
+    logging.info(f'Dataset Name: {dataset_name}')
+
     client = bigquery.Client()
 
     psnawp = PSNAWP(get_secret(get_project_id(), "psn")) # retrieve the psn information
