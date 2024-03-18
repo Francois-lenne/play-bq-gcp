@@ -7,6 +7,8 @@ import pandas as pd
 from google.cloud import secretmanager
 import google.auth
 import logging
+import json
+from google.auth.credentials import Credentials
 
 
 
@@ -28,11 +30,9 @@ def get_secret(project_id, secret_id):
     secret_string = response.payload.data.decode("UTF-8")
     return secret_string
 
-credentials = get_secret(get_project_id(), "GOOGLE_APPLICATION_CREDENTIALS")
-
-logging.info(f'Credentials: {credentials}')  # Ajout d'un log ici
-
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credentials
+credentials_json = get_secret(get_project_id(), "GOOGLE_APPLICATION_CREDENTIALS")
+credentials_dict = json.loads(credentials_json)
+credentials = Credentials.from_service_account_info(credentials_dict)
 
 
 
