@@ -30,9 +30,6 @@ def get_secret(project_id, secret_id):
     secret_string = response.payload.data.decode("UTF-8")
     return secret_string
 
-credentials_json = get_secret(get_project_id(), "GOOGLE_APPLICATION_CREDENTIALS")
-credentials_dict = json.loads(credentials_json)
-credentials = Credentials.from_service_account_info(credentials_dict)
 
 
 
