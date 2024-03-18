@@ -10,6 +10,7 @@ from google.oauth2 import service_account
 import logging
 import json
 from google.auth.credentials import Credentials
+import re
 
 
 
@@ -55,7 +56,7 @@ def update_trophee(df_trophee):
 def retrieve_game_data():
     psn_value = os.getenv("psn")
     if psn_value:
-        psn_value = psn_value.strip()
+        psn_value = re.sub(r'[^\x00-\x7F]+',' ', psn_value).strip()
 
     
     psnawp = PSNAWP(psn_value)
