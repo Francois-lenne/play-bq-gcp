@@ -227,7 +227,7 @@ def update_bigquery_table_from_df(df_game_filtered, temp_table_id, target_table_
 
 
 
-def main(request):
+def main():
 
     project_id = get_project_id()
     logging.info(f'Project ID: {project_id}')
