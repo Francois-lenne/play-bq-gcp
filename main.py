@@ -38,7 +38,10 @@ def update_trophee(df_trophee):
     dataset_name = os.getenv("DATASET_NAME")
     table_name_trophee = os.getenv("TABLE_NAME_TROPHEE")
 
-    client = bigquery.Client()
+    default_project, default_credentials = default()
+
+    # Créez un client BigQuery
+    client = bigquery.Client(default_project, default_credentials)
 
     client.insert_rows_from_dataframe(df_trophee, f"{project_id}.{dataset_name}.{table_name_trophee}")
 
