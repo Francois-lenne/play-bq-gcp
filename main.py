@@ -232,7 +232,15 @@ def update_bigquery_table_from_df(df_game_filtered, temp_table_id, target_table_
     # Chargez le DataFrame dans une table temporaire
     df_game_filtered.to_gbq(temp_table_id, if_exists='replace')
 
-    client = bigquery.Client()
+
+    credentials_json = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+
+    credentials = service_account.Credentials.from_service_account_info(
+        json.loads(credentials_json)
+    )
+
+    
+    client = bigquery.Client(credentials=credentials, location="EU")
 
     job_config = bigquery.LoadJobConfig(write_disposition="WRITE_TRUNCATE")
     job = client.load_table_from_dataframe(df_game_filtered, temp_table_id, job_config=job_config)
