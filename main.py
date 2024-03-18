@@ -47,7 +47,7 @@ def update_trophee(df_trophee):
     )
 
 
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client(credentials=credentials, project=credentials.project_id)
 
     # Construisez le nom complet de la table BigQuery
     table_id = f"{project_id}.{dataset_name}.{table_name_trophee}"
