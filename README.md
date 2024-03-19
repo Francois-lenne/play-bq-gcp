@@ -5,3 +5,4 @@ This project have to goal to show my Google cloud platform and data engineering 
 
 # The architecture
 
+![Schema play-gcp-bq](https://github.com/Francois-lenne/play-bq-gcp/assets/114836746/fa529724-7d37-465b-801e-f122090d6e19)
