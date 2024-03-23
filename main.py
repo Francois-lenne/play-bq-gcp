@@ -310,9 +310,6 @@ def main(request):
 
     df_trophee['date'] = pd.Timestamp.now().date()
 
-    # Afficher le DataFrame
-    print(df_trophee)
-
 
 
     # Convert the date columns to datetime for BigQuery
@@ -332,21 +329,23 @@ def main(request):
 
     time_play_df = update_time_play(old_game_df, df_game)
 
-
-    load_df_to_bigquery(time_play_df, f"{project_id}.{dataset_name}.{os.getenv('TABLE_NAME_TIME_PLAY')}")
-
-
-    df_game_filtered = game_need_update(time_play_df, df_game)
+    if len(time_play_df) > 0:
 
 
-    target_table_id = f"{project_id}.{dataset_name}.{os.getenv('TABLE_NAME_GAME')}"
-
-    temp_table_id = f"{project_id}.{dataset_name}.temp_table"
+        load_df_to_bigquery(time_play_df, f"{project_id}.{dataset_name}.{os.getenv('TABLE_NAME_TIME_PLAY')}")
 
 
+        df_game_filtered = game_need_update(time_play_df, df_game)
 
-    # Utilisez la fonction pour mettre à jour une table BigQuery à partir d'un DataFrame
-    update_bigquery_table_from_df(df_game_filtered, temp_table_id, target_table_id)
+
+        target_table_id = f"{project_id}.{dataset_name}.{os.getenv('TABLE_NAME_GAME')}"
+
+        temp_table_id = f"{project_id}.{dataset_name}.temp_table"
+
+
+
+        # Utilisez la fonction pour mettre à jour une table BigQuery à partir d'un DataFrame
+        update_bigquery_table_from_df(df_game_filtered, temp_table_id, target_table_id)
 
     return 'Success', 200
 
