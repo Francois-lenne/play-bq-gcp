@@ -161,6 +161,25 @@ def retrieve_old_game():
 
 
 
+def new_game(df_game, old_game_df):
+
+    credentials_json = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+
+    credentials = service_account.Credentials.from_service_account_info(
+        json.loads(credentials_json)
+    )
+    client = bigquery.Client(credentials=credentials, location="EU")
+    project_id = os.getenv("GCP_PROJECT")
+    dataset_name = os.getenv("DATASET_NAME")
+    table_name_game = os.getenv("TABLE_NAME_GAME")
+
+    df_game_new = df_game[~df_game['id'].isin(old_game_df['id'])]
+
+    if len(df_game_new) > 0:
+        client.insert_rows_from_dataframe(f"{project_id}.{dataset_name}.{table_name_game}", df_game_new)
+
+    return f"Loaded {len(df_game_new)} rows to {table_name_game}"
+
 
 
 
@@ -277,9 +296,7 @@ def main(request):
     )
 
     project_id = os.getenv("GCP_PROJECT")
-    logging.info(f'Project ID: {project_id}')
     dataset_name = os.getenv("DATASET_NAME")
-    logging.info(f'Dataset Name: {dataset_name}')
 
     client = bigquery.Client(credentials=credentials)
 
@@ -293,15 +310,8 @@ def main(request):
 
     client = psnawp.me()
 
-
-
-
-
     profile = client.get_profile_legacy()
     trophee = profile["profile"]["trophySummary"]["earnedTrophies"]
-
-    print(trophee)
-
 
     # Convertir le dictionnaire en DataFrame
     df_trophee = pd.DataFrame.from_dict(trophee, orient='index').T
@@ -326,6 +336,8 @@ def main(request):
 
 
     old_game_df = retrieve_old_game()
+
+    new_game(df_game, old_game_df)
 
     time_play_df = update_time_play(old_game_df, df_game)
 
