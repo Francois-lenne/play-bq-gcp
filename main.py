@@ -175,8 +175,14 @@ def new_game(df_game, old_game_df):
 
     df_game_new = df_game[~df_game['id'].isin(old_game_df['id'])]
 
+
+    table_id = f"{project_id}.{dataset_name}.{table_name_game}"
+
+    table = client.get_table(table_id)
+    schema = [field.name for field in table.schema]
+
     if len(df_game_new) > 0:
-        client.insert_rows_from_dataframe(f"{project_id}.{dataset_name}.{table_name_game}", df_game_new)
+        client.insert_rows_from_dataframe(table, df_game_new)
 
     return f"Loaded {len(df_game_new)} rows to {table_name_game}"
 
